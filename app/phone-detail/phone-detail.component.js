@@ -1,18 +1,20 @@
-'use strict';
-// Register `phoneDetail` component, along with its associated controller and template
+// 'use strict';
+"use strict";
 var PhoneDetailController = (function () {
-    function PhoneDetailController($routeParams, Phone) {
+    function PhoneDetailController($routeParams, phone) {
         var _this = this;
-        this.phone = Phone.get({ phoneId: $routeParams.phoneId }, function (phone) {
-            _this.setImage(phone.images[0]);
+        var phoneId = $routeParams['phoneId'];
+        phone.get(phoneId).subscribe(function (data) {
+            _this.phone = data;
+            _this.setImage(data.images[0]);
         });
     }
-    PhoneDetailController.prototype.setImage = function (image) {
-        this.mainImageUrl = image;
+    PhoneDetailController.prototype.setImage = function (imageUrl) {
+        this.mainImageUrl = imageUrl;
     };
     return PhoneDetailController;
 }());
-PhoneDetailController.$inject = ['$routeParams', 'Phone'];
+PhoneDetailController.$inject = ['$routeParams', 'phone'];
 angular.
     module('phoneDetail').
     component('phoneDetail', {
